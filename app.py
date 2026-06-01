@@ -1,8 +1,8 @@
 import streamlit as st
+import json
 
 from crawler_v3 import run_crawler
 from business_profile_builder_v2 import build_business_profile
-
 
 st.set_page_config(
     page_title="OpportunityIQ",
@@ -32,9 +32,9 @@ if st.button("Analyze"):
 
         try:
 
-            # -----------------------------
-            # Crawl Website
-            # -----------------------------
+            # ----------------------------------
+            # Run Crawler
+            # ----------------------------------
 
             with st.spinner(
                 "Crawling website..."
@@ -44,9 +44,9 @@ if st.button("Analyze"):
                     website
                 )
 
-            # -----------------------------
+            # ----------------------------------
             # Build Business Profile
-            # -----------------------------
+            # ----------------------------------
 
             with st.spinner(
                 "Building business profile..."
@@ -62,15 +62,15 @@ if st.button("Analyze"):
 
             st.divider()
 
-            # -----------------------------
+            # ----------------------------------
             # Metrics
-            # -----------------------------
+            # ----------------------------------
 
             st.subheader(
-                "Crawler Results"
+                "Analysis Summary"
             )
 
-            col1, col2 = st.columns(2)
+            col1, col2, col3 = st.columns(3)
 
             with col1:
 
@@ -82,91 +82,129 @@ if st.button("Analyze"):
             with col2:
 
                 st.metric(
-                    "JSON Output",
-                    crawl_result["json_file"]
-                )
-
-            st.divider()
-
-            # -----------------------------
-            # Business Profile
-            # -----------------------------
-
-            st.subheader(
-                "Business Profile Summary"
-            )
-
-            c1, c2, c3 = st.columns(3)
-
-            with c1:
-
-                st.metric(
                     "Service Pages",
-                    profile_result[
-                        "service_pages"
-                    ]
+                    profile_result["service_pages"]
                 )
 
-                st.metric(
-                    "About Pages",
-                    profile_result[
-                        "about_pages"
-                    ]
-                )
-
-            with c2:
+            with col3:
 
                 st.metric(
                     "Product Pages",
-                    profile_result[
-                        "product_pages"
-                    ]
-                )
-
-                st.metric(
-                    "Contact Pages",
-                    profile_result[
-                        "contact_pages"
-                    ]
-                )
-
-            with c3:
-
-                st.metric(
-                    "Location Pages",
-                    profile_result[
-                        "location_pages"
-                    ]
-                )
-
-                st.metric(
-                    "FAQ Pages",
-                    profile_result[
-                        "faq_pages"
-                    ]
+                    profile_result["product_pages"]
                 )
 
             st.divider()
 
-            # -----------------------------
-            # Generated Files
-            # -----------------------------
+            # ----------------------------------
+            # Download Files
+            # ----------------------------------
 
             st.subheader(
                 "Generated Files"
             )
 
-            st.write(
-                "✓ all_pages.json"
+            try:
+
+                with open(
+                    "all_pages.json",
+                    "r",
+                    encoding="utf-8"
+                ) as f:
+
+                    all_pages_data = f.read()
+
+                st.download_button(
+                    label="Download all_pages.json",
+                    data=all_pages_data,
+                    file_name="all_pages.json",
+                    mime="application/json"
+                )
+
+            except:
+                pass
+
+            try:
+
+                with open(
+                    "business_input.json",
+                    "r",
+                    encoding="utf-8"
+                ) as f:
+
+                    business_input_data = f.read()
+
+                st.download_button(
+                    label="Download business_input.json",
+                    data=business_input_data,
+                    file_name="business_input.json",
+                    mime="application/json"
+                )
+
+            except:
+                pass
+
+            st.divider()
+
+            # ----------------------------------
+            # Preview Business Profile
+            # ----------------------------------
+
+            st.subheader(
+                "Business Profile Preview"
+            )
+
+            with open(
+                "business_input.json",
+                "r",
+                encoding="utf-8"
+            ) as f:
+
+                business_input = json.load(f)
+
+            homepage = business_input.get(
+                "homepage",
+                {}
             )
 
             st.write(
-                "✓ all_pages.csv"
+                "### Homepage"
             )
 
-            st.write(
-                "✓ business_input.json"
+            st.json(homepage)
+
+            services = business_input.get(
+                "service_pages",
+                []
             )
+
+            if services:
+
+                st.write(
+                    "### Sample Services"
+                )
+
+                for service in services[:5]:
+
+                    st.write(
+                        f"• {service.get('title','No Title')}"
+                    )
+
+            products = business_input.get(
+                "product_pages",
+                []
+            )
+
+            if products:
+
+                st.write(
+                    "### Sample Products"
+                )
+
+                for product in products[:5]:
+
+                    st.write(
+                        f"• {product.get('title','No Title')}"
+                    )
 
         except Exception as e:
 
