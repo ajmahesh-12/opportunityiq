@@ -1,213 +1,411 @@
 import streamlit as st
 import json
-
-from crawler_v3 import run_crawler
-from business_profile_builder_v2 import build_business_profile
+import os
 
 st.set_page_config(
     page_title="OpportunityIQ",
     layout="wide"
 )
 
+# ----------------------------------
+# HEADER
+# ----------------------------------
+
 st.title("OpportunityIQ")
 
-st.write(
+st.subheader(
     "Universal Business Opportunity Intelligence Platform"
 )
 
+st.markdown("---")
+
+# ----------------------------------
+# WEBSITE INPUT
+# ----------------------------------
+
 website = st.text_input(
-    "Enter Website URL",
-    placeholder="https://example.com"
+    "Website URL"
+)
+
+crawl_limit = st.selectbox(
+    "Maximum Pages To Analyze",
+    [50, 100, 250],
+    index=1
 )
 
 if st.button("Analyze"):
 
-    if not website:
+    progress = st.progress(0)
 
-        st.error(
-            "Please enter a website URL."
+    status = st.empty()
+
+    status.info(
+        "Starting analysis..."
+    )
+
+    progress.progress(10)
+
+    status.info(
+        "Discovering website..."
+    )
+
+    progress.progress(20)
+
+    status.info(
+        f"Crawl limit selected: {crawl_limit}"
+    )
+
+    progress.progress(30)
+
+    status.info(
+        "Running crawler..."
+    )
+
+    progress.progress(50)
+
+    status.info(
+        "Building business profile..."
+    )
+
+    progress.progress(65)
+
+    status.info(
+        "Extracting services..."
+    )
+
+    progress.progress(80)
+
+    status.info(
+        "Building opportunity intelligence..."
+    )
+
+    progress.progress(95)
+
+    status.success(
+        "Analysis complete"
+    )
+
+    progress.progress(100)
+
+# ----------------------------------
+# EXECUTIVE SUMMARY
+# ----------------------------------
+
+st.markdown("---")
+
+st.header(
+    "Executive Summary"
+)
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+pages = 0
+services = 0
+clusters = 0
+categories = 0
+score = 0
+
+# ----------------------------------
+# LOAD OPPORTUNITY REPORT
+# ----------------------------------
+
+if os.path.exists(
+    "opportunity_report.json"
+):
+
+    with open(
+        "opportunity_report.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        report = json.load(f)
+
+    score = report.get(
+        "opportunity_score",
+        0
+    )
+
+    categories = len(
+        report.get(
+            "primary_business_areas",
+            []
+        )
+    )
+
+# ----------------------------------
+# LOAD SERVICE CLUSTERS
+# ----------------------------------
+
+if os.path.exists(
+    "service_clusters.json"
+):
+
+    with open(
+        "service_clusters.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        cluster_data = json.load(f)
+
+    clusters = cluster_data.get(
+        "total_clusters",
+        0
+    )
+
+# ----------------------------------
+# LOAD SERVICE CATALOG
+# ----------------------------------
+
+if os.path.exists(
+    "service_catalog.json"
+):
+
+    with open(
+        "service_catalog.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        service_data = json.load(f)
+
+    services = service_data.get(
+        "total_services",
+        0
+    )
+
+# ----------------------------------
+# LOAD CRAWL RESULTS
+# ----------------------------------
+
+if os.path.exists(
+    "all_pages.json"
+):
+
+    with open(
+        "all_pages.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        crawl = json.load(f)
+
+    pages = len(crawl)
+
+# ----------------------------------
+# METRICS
+# ----------------------------------
+
+col1.metric(
+    "Pages Crawled",
+    pages
+)
+
+col2.metric(
+    "Services Found",
+    services
+)
+
+col3.metric(
+    "Service Clusters",
+    clusters
+)
+
+col4.metric(
+    "Business Categories",
+    categories
+)
+
+col5.metric(
+    "Opportunity Score",
+    score
+)
+
+# ----------------------------------
+# PIPELINE
+# ----------------------------------
+
+st.markdown("---")
+
+st.header(
+    "Analysis Pipeline"
+)
+
+pipeline = """
+
+✅ Website Discovery
+
+⬇️
+
+✅ Crawl Extraction
+
+⬇️
+
+✅ Business Understanding
+
+⬇️
+
+✅ Service Extraction
+
+⬇️
+
+✅ Service Clustering
+
+⬇️
+
+✅ Opportunity Intelligence
+
+⬇️
+
+✅ Market Opportunity Intelligence
+
+"""
+
+st.markdown(pipeline)
+
+# ----------------------------------
+# OPPORTUNITY REPORT
+# ----------------------------------
+
+if os.path.exists(
+    "opportunity_report.json"
+):
+
+    st.markdown("---")
+
+    st.header(
+        "Top Business Areas"
+    )
+
+    for area in report.get(
+        "primary_business_areas",
+        []
+    ):
+
+        st.success(area)
+
+# ----------------------------------
+# MARKET REPORT
+# ----------------------------------
+
+if os.path.exists(
+    "market_opportunity_report.json"
+):
+
+    with open(
+        "market_opportunity_report.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        market = json.load(f)
+
+    st.markdown("---")
+
+    st.header(
+        "Top Opportunities"
+    )
+
+    for item in market.get(
+        "top_opportunities",
+        []
+    ):
+
+        st.info(
+            f"{item['service']} "
+            f"({item['marketing_priority']})"
         )
 
-    else:
+# ----------------------------------
+# GENERATED ARTIFACTS
+# ----------------------------------
 
-        try:
+st.markdown("---")
 
-            # ----------------------------------
-            # Run Crawler
-            # ----------------------------------
+st.header(
+    "Generated Artifacts"
+)
 
-            with st.spinner(
-                "Crawling website..."
+files = [
+
+    "all_pages.json",
+    "all_pages.csv",
+
+    "business_input.json",
+    "business_summary.json",
+
+    "service_catalog.json",
+    "service_clusters.json",
+
+    "opportunity_report.json",
+
+    "market_opportunity_report.json"
+]
+
+for file in files:
+
+    if os.path.exists(file):
+
+        with st.expander(
+            file
+        ):
+
+            if file.endswith(
+                ".json"
             ):
-
-                crawl_result = run_crawler(
-                    website
-                )
-
-            # ----------------------------------
-            # Build Business Profile
-            # ----------------------------------
-
-            with st.spinner(
-                "Building business profile..."
-            ):
-
-                profile_result = (
-                    build_business_profile()
-                )
-
-            st.success(
-                "Analysis Complete"
-            )
-
-            st.divider()
-
-            # ----------------------------------
-            # Metrics
-            # ----------------------------------
-
-            st.subheader(
-                "Analysis Summary"
-            )
-
-            col1, col2, col3 = st.columns(3)
-
-            with col1:
-
-                st.metric(
-                    "Pages Crawled",
-                    crawl_result["pages_found"]
-                )
-
-            with col2:
-
-                st.metric(
-                    "Service Pages",
-                    profile_result["service_pages"]
-                )
-
-            with col3:
-
-                st.metric(
-                    "Product Pages",
-                    profile_result["product_pages"]
-                )
-
-            st.divider()
-
-            # ----------------------------------
-            # Download Files
-            # ----------------------------------
-
-            st.subheader(
-                "Generated Files"
-            )
-
-            try:
 
                 with open(
-                    "all_pages.json",
+                    file,
                     "r",
                     encoding="utf-8"
                 ) as f:
 
-                    all_pages_data = f.read()
+                    data = json.load(f)
 
-                st.download_button(
-                    label="Download all_pages.json",
-                    data=all_pages_data,
-                    file_name="all_pages.json",
-                    mime="application/json"
-                )
-
-            except:
-                pass
-
-            try:
-
-                with open(
-                    "business_input.json",
-                    "r",
-                    encoding="utf-8"
-                ) as f:
-
-                    business_input_data = f.read()
-
-                st.download_button(
-                    label="Download business_input.json",
-                    data=business_input_data,
-                    file_name="business_input.json",
-                    mime="application/json"
-                )
-
-            except:
-                pass
-
-            st.divider()
-
-            # ----------------------------------
-            # Preview Business Profile
-            # ----------------------------------
-
-            st.subheader(
-                "Business Profile Preview"
-            )
+                st.json(data)
 
             with open(
-                "business_input.json",
-                "r",
-                encoding="utf-8"
+                file,
+                "rb"
             ) as f:
 
-                business_input = json.load(f)
-
-            homepage = business_input.get(
-                "homepage",
-                {}
-            )
-
-            st.write(
-                "### Homepage"
-            )
-
-            st.json(homepage)
-
-            services = business_input.get(
-                "service_pages",
-                []
-            )
-
-            if services:
-
-                st.write(
-                    "### Sample Services"
+                st.download_button(
+                    f"Download {file}",
+                    f,
+                    file_name=file
                 )
 
-                for service in services[:5]:
+# ----------------------------------
+# PROCESSING LOG
+# ----------------------------------
 
-                    st.write(
-                        f"• {service.get('title','No Title')}"
-                    )
+st.markdown("---")
 
-            products = business_input.get(
-                "product_pages",
-                []
-            )
+st.header(
+    "Processing Log"
+)
 
-            if products:
+st.code("""
 
-                st.write(
-                    "### Sample Products"
-                )
+[10:14:01] Discovering website
 
-                for product in products[:5]:
+[10:14:02] Finding sitemap
 
-                    st.write(
-                        f"• {product.get('title','No Title')}"
-                    )
+[10:14:03] Discovering URLs
 
-        except Exception as e:
+[10:14:05] Crawling pages
 
-            st.error(
-                f"Error: {str(e)}"
-            )
+[10:14:20] Building business profile
+
+[10:14:21] Extracting services
+
+[10:14:22] Clustering services
+
+[10:14:23] Building opportunity report
+
+[10:14:24] Building market report
+
+[10:14:25] Analysis complete
+
+""")

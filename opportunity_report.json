@@ -1,0 +1,62 @@
+{
+  "company_name": "IT Training Institute & Certifications | Skillcubator",
+  "website": "https://skillcubator.com/",
+  "opportunity_score": 80,
+  "primary_business_areas": [
+    "Business Analysis",
+    "Artificial Intelligence",
+    "Cloud",
+    "Healthcare",
+    "Project Management"
+  ],
+  "category_scores": {
+    "Business Analysis": 22,
+    "Artificial Intelligence": 13,
+    "Cloud": 3,
+    "Healthcare": 3,
+    "Project Management": 3,
+    "Data": 3,
+    "Cybersecurity": 2
+  },
+  "top_services": [
+    "Placement Services | Skillcubator",
+    "Services - Skillcubator",
+    "Business Analyst Domain Training - Skillcubator",
+    "Personal Branding | Skillcubator",
+    "ServiceNow Business Analysis - Skillcubator"
+  ],
+  "top_products": [
+    "CBAP Certification Training Online | Skillcubator",
+    "Secondary Mortgage - Skillcubator",
+    "Placement Support Services | Skillcubator",
+    "Fintech Business Analysis - Skillcubator",
+    "Cloud Business Analysis - Skillcubator",
+    "Insurance Domain Training | Skillcubator",
+    "Product Management - Skillcubator",
+    "Mentoring and Coaching Career | Skillcubator",
+    "Salesforce Business Analysis/Administration Training and Placement Program - Skillcubator",
+    "Workday Business Analysis - Skillcubator"
+  ],
+  "top_keywords": [
+    "business",
+    "analysis",
+    "professional",
+    "scrum",
+    "pspo",
+    "certification",
+    "product",
+    "management",
+    "training",
+    "certifications",
+    "artificial",
+    "intelligence",
+    "analyst",
+    "agile",
+    "certified",
+    "cloud",
+    "skillcubator",
+    "placement",
+    "data",
+    "process"
+  ]
+}
