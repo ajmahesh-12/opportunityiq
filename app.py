@@ -2,410 +2,351 @@ import streamlit as st
 import json
 import os
 
+from pipeline import run_pipeline
+
+# --------------------------------------------------
+# PAGE CONFIG
+# --------------------------------------------------
+
 st.set_page_config(
     page_title="OpportunityIQ",
     layout="wide"
 )
 
-# ----------------------------------
+# --------------------------------------------------
 # HEADER
-# ----------------------------------
+# --------------------------------------------------
 
-st.title("OpportunityIQ")
+st.title(
+    "OpportunityIQ"
+)
 
 st.subheader(
     "Universal Business Opportunity Intelligence Platform"
 )
 
-st.markdown("---")
+st.markdown(
+    """
+OpportunityIQ crawls a company website and converts
+raw web content into business intelligence,
+service intelligence, and market opportunity insights.
+"""
+)
 
-# ----------------------------------
-# WEBSITE INPUT
-# ----------------------------------
+# --------------------------------------------------
+# INPUTS
+# --------------------------------------------------
 
 website = st.text_input(
-    "Website URL"
+    "Website URL",
+    placeholder="https://company.com"
 )
 
-crawl_limit = st.selectbox(
-    "Maximum Pages To Analyze",
-    [50, 100, 250],
-    index=1
+crawl_mode = st.selectbox(
+    "Analysis Depth",
+    [
+        "Quick Scan (50 pages)",
+        "Standard Scan (100 pages)",
+        "Deep Scan (250 pages)"
+    ]
 )
 
-if st.button("Analyze"):
+if crawl_mode.startswith("Quick"):
+    max_pages = 50
+
+elif crawl_mode.startswith("Standard"):
+    max_pages = 100
+
+else:
+    max_pages = 250
+
+st.info(
+    f"""
+Selected Crawl Limit: {max_pages} pages
+
+OpportunityIQ first discovers all URLs available on
+the website.
+
+If more URLs exist than the selected limit,
+only the first {max_pages} pages are analyzed.
+
+This keeps analysis time reasonable while
+still capturing the majority of business intelligence.
+
+Future enterprise versions can support
+thousands of pages.
+"""
+)
+
+# --------------------------------------------------
+# ANALYZE BUTTON
+# --------------------------------------------------
+
+if st.button("Analyze Website"):
+
+    if not website:
+
+        st.error(
+            "Enter a website URL."
+        )
+
+        st.stop()
+
+    logs = []
 
     progress = st.progress(0)
 
-    status = st.empty()
+    log_area = st.empty()
 
-    status.info(
-        "Starting analysis..."
-    )
+    # ------------------------------------------
+    # LOGGER
+    # ------------------------------------------
 
-    progress.progress(10)
+    def logger(message):
 
-    status.info(
-        "Discovering website..."
-    )
+        logs.append(message)
 
-    progress.progress(20)
-
-    status.info(
-        f"Crawl limit selected: {crawl_limit}"
-    )
-
-    progress.progress(30)
-
-    status.info(
-        "Running crawler..."
-    )
-
-    progress.progress(50)
-
-    status.info(
-        "Building business profile..."
-    )
-
-    progress.progress(65)
-
-    status.info(
-        "Extracting services..."
-    )
-
-    progress.progress(80)
-
-    status.info(
-        "Building opportunity intelligence..."
-    )
-
-    progress.progress(95)
-
-    status.success(
-        "Analysis complete"
-    )
-
-    progress.progress(100)
-
-# ----------------------------------
-# EXECUTIVE SUMMARY
-# ----------------------------------
-
-st.markdown("---")
-
-st.header(
-    "Executive Summary"
-)
-
-col1, col2, col3, col4, col5 = st.columns(5)
-
-pages = 0
-services = 0
-clusters = 0
-categories = 0
-score = 0
-
-# ----------------------------------
-# LOAD OPPORTUNITY REPORT
-# ----------------------------------
-
-if os.path.exists(
-    "opportunity_report.json"
-):
-
-    with open(
-        "opportunity_report.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
-
-        report = json.load(f)
-
-    score = report.get(
-        "opportunity_score",
-        0
-    )
-
-    categories = len(
-        report.get(
-            "primary_business_areas",
-            []
+        log_area.text(
+            "\n".join(logs[-50:])
         )
+
+    # ------------------------------------------
+    # RUN PIPELINE
+    # ------------------------------------------
+
+    try:
+
+        progress.progress(5)
+
+        results = run_pipeline(
+            website=website,
+            max_pages=max_pages,
+            logger=logger
+        )
+
+        progress.progress(100)
+
+        st.success(
+            "Analysis Complete"
+        )
+
+    except Exception as e:
+
+        st.error(str(e))
+        st.stop()
+
+    # --------------------------------------------------
+    # EXECUTIVE DASHBOARD
+    # --------------------------------------------------
+
+    st.header(
+        "Executive Dashboard"
     )
 
-# ----------------------------------
-# LOAD SERVICE CLUSTERS
-# ----------------------------------
+    crawl = results["crawl"]
 
-if os.path.exists(
-    "service_clusters.json"
-):
+    col1, col2, col3 = st.columns(3)
 
-    with open(
-        "service_clusters.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
+    with col1:
 
-        cluster_data = json.load(f)
+        st.metric(
+            "URLs Discovered",
+            crawl[
+                "total_urls_discovered"
+            ]
+        )
 
-    clusters = cluster_data.get(
-        "total_clusters",
-        0
+    with col2:
+
+        st.metric(
+            "Pages Crawled",
+            crawl[
+                "pages_found"
+            ]
+        )
+
+    with col3:
+
+        coverage = round(
+            (
+                crawl["pages_found"]
+                /
+                max(
+                    crawl[
+                        "total_urls_discovered"
+                    ],
+                    1
+                )
+            )
+            * 100,
+            1
+        )
+
+        st.metric(
+            "Coverage %",
+            coverage
+        )
+
+    # --------------------------------------------------
+    # OPPORTUNITY REPORT
+    # --------------------------------------------------
+
+    if os.path.exists(
+        "opportunity_report.json"
+    ):
+
+        with open(
+            "opportunity_report.json",
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            opportunity = json.load(f)
+
+        st.header(
+            "Opportunity Intelligence"
+        )
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+
+            st.metric(
+                "Opportunity Score",
+                opportunity.get(
+                    "opportunity_score",
+                    0
+                )
+            )
+
+        with col2:
+
+            st.metric(
+                "Business Areas",
+                len(
+                    opportunity.get(
+                        "primary_business_areas",
+                        []
+                    )
+                )
+            )
+
+        st.write(
+            opportunity
+        )
+
+    # --------------------------------------------------
+    # MARKET REPORT
+    # --------------------------------------------------
+
+    if os.path.exists(
+        "market_opportunity_report.json"
+    ):
+
+        with open(
+            "market_opportunity_report.json",
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            market = json.load(f)
+
+        st.header(
+            "Market Opportunity Report"
+        )
+
+        st.json(
+            market
+        )
+
+    # --------------------------------------------------
+    # ARTIFACT HIERARCHY
+    # --------------------------------------------------
+
+    st.header(
+        "Analysis Artifacts"
     )
 
-# ----------------------------------
-# LOAD SERVICE CATALOG
-# ----------------------------------
+    st.markdown(
+        """
+### Final Intelligence Outputs
 
-if os.path.exists(
-    "service_catalog.json"
-):
+- opportunity_report.json
+- market_opportunity_report.json
 
-    with open(
-        "service_catalog.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
+### Business Intelligence Layer
 
-        service_data = json.load(f)
+- business_summary.json
+- business_input.json
 
-    services = service_data.get(
-        "total_services",
-        0
-    )
+### Service Intelligence Layer
 
-# ----------------------------------
-# LOAD CRAWL RESULTS
-# ----------------------------------
+- service_catalog.json
+- service_clusters.json
 
-if os.path.exists(
-    "all_pages.json"
-):
+### Crawl Intelligence Layer
 
-    with open(
-        "all_pages.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
-
-        crawl = json.load(f)
-
-    pages = len(crawl)
-
-# ----------------------------------
-# METRICS
-# ----------------------------------
-
-col1.metric(
-    "Pages Crawled",
-    pages
-)
-
-col2.metric(
-    "Services Found",
-    services
-)
-
-col3.metric(
-    "Service Clusters",
-    clusters
-)
-
-col4.metric(
-    "Business Categories",
-    categories
-)
-
-col5.metric(
-    "Opportunity Score",
-    score
-)
-
-# ----------------------------------
-# PIPELINE
-# ----------------------------------
-
-st.markdown("---")
-
-st.header(
-    "Analysis Pipeline"
-)
-
-pipeline = """
-
-✅ Website Discovery
-
-⬇️
-
-✅ Crawl Extraction
-
-⬇️
-
-✅ Business Understanding
-
-⬇️
-
-✅ Service Extraction
-
-⬇️
-
-✅ Service Clustering
-
-⬇️
-
-✅ Opportunity Intelligence
-
-⬇️
-
-✅ Market Opportunity Intelligence
-
+- all_pages.json
+- all_pages.csv
 """
-
-st.markdown(pipeline)
-
-# ----------------------------------
-# OPPORTUNITY REPORT
-# ----------------------------------
-
-if os.path.exists(
-    "opportunity_report.json"
-):
-
-    st.markdown("---")
-
-    st.header(
-        "Top Business Areas"
     )
 
-    for area in report.get(
-        "primary_business_areas",
-        []
-    ):
+    # --------------------------------------------------
+    # FILE PREVIEW
+    # --------------------------------------------------
 
-        st.success(area)
+    artifact_files = [
 
-# ----------------------------------
-# MARKET REPORT
-# ----------------------------------
+        "opportunity_report.json",
 
-if os.path.exists(
-    "market_opportunity_report.json"
-):
-
-    with open(
         "market_opportunity_report.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
 
-        market = json.load(f)
+        "business_summary.json",
 
-    st.markdown("---")
+        "business_input.json",
 
-    st.header(
-        "Top Opportunities"
-    )
+        "service_catalog.json",
 
-    for item in market.get(
-        "top_opportunities",
-        []
-    ):
+        "service_clusters.json",
 
-        st.info(
-            f"{item['service']} "
-            f"({item['marketing_priority']})"
-        )
+        "all_pages.json"
+    ]
 
-# ----------------------------------
-# GENERATED ARTIFACTS
-# ----------------------------------
+    for file in artifact_files:
 
-st.markdown("---")
+        if os.path.exists(file):
 
-st.header(
-    "Generated Artifacts"
-)
-
-files = [
-
-    "all_pages.json",
-    "all_pages.csv",
-
-    "business_input.json",
-    "business_summary.json",
-
-    "service_catalog.json",
-    "service_clusters.json",
-
-    "opportunity_report.json",
-
-    "market_opportunity_report.json"
-]
-
-for file in files:
-
-    if os.path.exists(file):
-
-        with st.expander(
-            file
-        ):
-
-            if file.endswith(
-                ".json"
-            ):
-
-                with open(
-                    file,
-                    "r",
-                    encoding="utf-8"
-                ) as f:
-
-                    data = json.load(f)
-
-                st.json(data)
+            st.subheader(file)
 
             with open(
                 file,
-                "rb"
+                "r",
+                encoding="utf-8"
             ) as f:
 
-                st.download_button(
-                    f"Download {file}",
-                    f,
-                    file_name=file
-                )
+                content = f.read()
 
-# ----------------------------------
-# PROCESSING LOG
-# ----------------------------------
+            preview = content[:5000]
 
-st.markdown("---")
+            st.code(
+                preview,
+                language="json"
+            )
 
-st.header(
-    "Processing Log"
-)
+            st.download_button(
+                label=f"Download {file}",
+                data=content,
+                file_name=file
+            )
 
-st.code("""
+    # --------------------------------------------------
+    # RAW LOGS
+    # --------------------------------------------------
 
-[10:14:01] Discovering website
+    st.header(
+        "Execution Logs"
+    )
 
-[10:14:02] Finding sitemap
-
-[10:14:03] Discovering URLs
-
-[10:14:05] Crawling pages
-
-[10:14:20] Building business profile
-
-[10:14:21] Extracting services
-
-[10:14:22] Clustering services
-
-[10:14:23] Building opportunity report
-
-[10:14:24] Building market report
-
-[10:14:25] Analysis complete
-
-""")
+    st.text(
+        "\n".join(logs)
+    )
