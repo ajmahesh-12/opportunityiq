@@ -1,0 +1,38 @@
+{
+  "company_name": "Jira Query Language (JQL): A Beginner's Guide - Skillcubator",
+  "overall_opportunity_score": 75,
+  "top_opportunities": [
+    {
+      "service": "Business Analyst Domain Training - Skillcubator",
+      "opportunity_score": 40,
+      "marketing_priority": "High"
+    },
+    {
+      "service": "ServiceNow Business Analysis - Skillcubator",
+      "opportunity_score": 30,
+      "marketing_priority": "High"
+    },
+    {
+      "service": "Placement Services | Skillcubator",
+      "opportunity_score": 20,
+      "marketing_priority": "Medium"
+    },
+    {
+      "service": "Personal Branding | Skillcubator",
+      "opportunity_score": 10,
+      "marketing_priority": "Medium"
+    },
+    {
+      "service": "Services - Skillcubator",
+      "opportunity_score": 10,
+      "marketing_priority": "Medium"
+    }
+  ],
+  "business_areas": [
+    "Business Analysis",
+    "Artificial Intelligence",
+    "Cloud",
+    "Project Management",
+    "Data"
+  ]
+}

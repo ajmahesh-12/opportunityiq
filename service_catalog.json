@@ -1,24 +1,12 @@
 {
-  "total_services": 26,
+  "total_services": 20,
   "services": [
     {
-      "service": "placement services skillcubator",
+      "service": "electronic payment processing debitcredit skillcubator",
       "mentions": 1
     },
     {
-      "service": "secondary mortgage skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "interview preparation crack your job interview skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "business analyst domain training skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "retail banking course learn banking skills online skillcubator",
+      "service": "capital market business analyst skillcubator",
       "mentions": 1
     },
     {
@@ -30,31 +18,7 @@
       "mentions": 1
     },
     {
-      "service": "guidewire business analysis skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "cloud business analysis skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "services skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "mentoring and coaching career skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "placement support services skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "insurance domain training skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "cbap certification training online skillcubator",
+      "service": "interview preparation crack your job interview skillcubator",
       "mentions": 1
     },
     {
@@ -62,39 +26,11 @@
       "mentions": 1
     },
     {
-      "service": "electronic payment processing debitcredit skillcubator",
+      "service": "placement services skillcubator",
       "mentions": 1
     },
     {
-      "service": "investment banking coursebuild a career in finance skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "data science skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "workday business analysis skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "fintech business analysis skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "personal branding skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "healthcare business analyst canada skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "capital market business analyst skillcubator",
-      "mentions": 1
-    },
-    {
-      "service": "product management skillcubator",
+      "service": "mentoring and coaching career skillcubator",
       "mentions": 1
     },
     {
@@ -102,7 +38,47 @@
       "mentions": 1
     },
     {
-      "service": "salesforce business analysisadministration training and placement program skillcubator",
+      "service": "fintech business analysis skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "cloud business analysis skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "cbap certification training online skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "data science skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "insurance domain training skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "product management skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "personal branding skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "services skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "business analyst domain training skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "retail banking course learn banking skills online skillcubator",
+      "mentions": 1
+    },
+    {
+      "service": "guidewire business analysis skillcubator",
       "mentions": 1
     }
   ]

@@ -1,0 +1,225 @@
+{
+  "total_clusters": 20,
+  "clusters": [
+    {
+      "cluster_name": "electronic payment processing debitcredit skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "electronic payment processing debitcredit skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "capital market business analyst skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "capital market business analyst skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "servicenow business analysis skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "servicenow business analysis skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "healthcare business analyst skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "healthcare business analyst skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "interview preparation crack your job interview skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "interview preparation crack your job interview skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "aws solutions architect skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "aws solutions architect skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "placement services skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "placement services skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "mentoring and coaching career skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "mentoring and coaching career skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "artificial intelligence ai business analysis training and placement program skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "artificial intelligence ai business analysis training and placement program skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "fintech business analysis skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "fintech business analysis skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "cloud business analysis skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "cloud business analysis skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "cbap certification training online skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "cbap certification training online skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "data science skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "data science skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "insurance domain training skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "insurance domain training skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "product management skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "product management skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "personal branding skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "personal branding skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "services skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "services skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "business analyst domain training skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "business analyst domain training skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "retail banking course learn banking skills online skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "retail banking course learn banking skills online skillcubator",
+          "mentions": 1
+        }
+      ]
+    },
+    {
+      "cluster_name": "guidewire business analysis skillcubator",
+      "cluster_score": 1,
+      "service_count": 1,
+      "services": [
+        {
+          "service": "guidewire business analysis skillcubator",
+          "mentions": 1
+        }
+      ]
+    }
+  ]
+}

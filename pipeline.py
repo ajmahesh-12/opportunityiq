@@ -1,3 +1,9 @@
+
+import crawler_v3
+
+print("CRAWLER FILE:", crawler_v3.__file__)
+print("RUN_CRAWLER:", crawler_v3.run_crawler)
+
 from crawler_v3 import run_crawler
 
 from business_profile_builder_v2 import (
